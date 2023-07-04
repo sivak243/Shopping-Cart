@@ -46,17 +46,17 @@ pipeline {
             }
         }
         
-        // stage('Docker Build & Push') {
-        //     steps {
-        //         script {
-        //             withDockerRegistry(credentialsId: 'Docker', toolName: 'docker') {
-        //             sh "docker build -t shopping-cart:latest -f docker/Dockerfile ."
-        //             sh "docker tag shopping-cart:latest gadebhavani26/shopping-cart:latest"
-        //             sh "docker push gadebhavani26/shopping-cart:latest"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'Docker', toolName: 'docker') {
+                    sh "docker build -t shopping-cart:latest -f docker/Dockerfile ."
+                    sh "docker tag shopping-cart:latest gadebhavani26/shopping-cart:latest"
+                    sh "docker push gadebhavani26/shopping-cart:latest"
+                    }
+                }
+            }
+        }
         // stage("Deploy to EKS") {
         //     steps {
         //         script {
