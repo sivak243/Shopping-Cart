@@ -25,6 +25,7 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
+        
         stage('Sonarqube Analysis') {
             steps {
                         sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://15.206.148.247:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
