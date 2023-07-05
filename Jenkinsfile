@@ -28,7 +28,7 @@ pipeline {
         
         stage('Sonarqube Analysis') {
             steps {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://3.109.56.178:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://13.232.230.24:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
                         -Dsonar.java.binaries=. \
                         -Dsonar.projectKey=shopping-cart '''
             }
