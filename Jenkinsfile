@@ -82,16 +82,21 @@ pipeline {
                 }
             }
         }
-        stage("Deploy to EKS") {
-            steps {
-                script {
-                    dir('.') {
-                        sh "aws eks --region ap-south-1 update-kubeconfig --name terraform-eks-demo"
-                        sh "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml"
-                        sh "kubectl apply -f deploymentservice.yml"
-                    }
-                }
-            }
+        // stage("Deploy to EKS") {
+        //     steps {
+        //         script {
+        //             dir('.') {
+        //                 sh "aws eks --region ap-south-1 update-kubeconfig --name terraform-eks-demo"
+        //                 sh "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml"
+        //                 sh "kubectl apply -f deploymentservice.yml"
+        //             }
+        //         }
+        //     }
+        // }
+        stage('Trigger CD pipeline'){
+           steps{
+               build job:"CD",wait: true
+           }
         }
     }
 }
