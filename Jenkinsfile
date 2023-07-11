@@ -24,6 +24,7 @@ pipeline {
             steps {
                 sh "mvn clean compile"
             }
+        }
         
         stage('Sonarqube Analysis') {
             steps {
@@ -43,7 +44,6 @@ pipeline {
             steps {
                 sh "mvn clean package -DskipTests=true"
             }
-        }
         }
         stage('Deploy to Artifactory') {
             environment {
