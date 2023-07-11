@@ -45,7 +45,7 @@ pipeline {
                 sh "mvn clean package -DskipTests=true"
             }
         }
-        stage('Deploy to Artifactory') {
+        stage('Deploy to JFrog Artifactory') {
             environment {
                 // Define the target repository in Artifactory
                 TARGET_REPO = 'my-local-repo'
