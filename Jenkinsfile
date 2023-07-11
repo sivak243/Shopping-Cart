@@ -26,31 +26,61 @@ pipeline {
             }
         }
         stage('Deploy to Artifactory') {
-            environment {
-                // Define the target repository in Artifactory
-                TARGET_REPO = 'my-local-repo'
-            }
-            
-            steps {
-                script {
-                    try {
-                        def server = Artifactory.newServer url: 'http://52.66.152.113:8082/artifactory/my-local-repo/', credentialsId: 'jfrog-cred'
-                        def uploadSpec = """{
-                            "files": [
-                                {
-                                    "pattern": "target/*.jar",
-                                    "target": "${TARGET_REPO}/"
-                                }
-                            ]
-                        }"""
-                        
-                        server.upload(uploadSpec)
-                    } catch (Exception e) {
-                        error("Failed to deploy artifacts to Artifactory: ${e.message}")
-                    }
-                }
+    environment {
+        // Define the target repository in Artifactory
+        TARGET_REPO = 'my-local-repo'
+    }
+    
+    steps {
+        script {
+            try {
+                def server = Artifactory.newServer url: 'http://52.66.152.113:8082/artifactory/my-local-repo/', credentialsId: 'jfrog-cred'
+                def uploadSpec = """{
+                    "files": [
+                        {
+                            "pattern": "target/*.jar",
+                            "target": "${TARGET_REPO}/"
+                        }
+                    ]
+                }"""
+                
+                server.upload(uploadSpec)
+            } catch (Exception e) {
+                // Print the error details to the console output
+                echo "Failed to deploy artifacts to Artifactory: ${e.getMessage()}"
+                // Mark the build as failed
+                error("Failed to deploy artifacts to Artifactory")
             }
         }
+    }
+}
+
+        // stage('Deploy to Artifactory') {
+        //     environment {
+        //         // Define the target repository in Artifactory
+        //         TARGET_REPO = 'my-local-repo'
+        //     }
+            
+        //     steps {
+        //         script {
+        //             try {
+        //                 def server = Artifactory.newServer url: 'http://52.66.152.113:8082/artifactory/my-local-repo/', credentialsId: 'jfrog-cred'
+        //                 def uploadSpec = """{
+        //                     "files": [
+        //                         {
+        //                             "pattern": "target/*.jar",
+        //                             "target": "${TARGET_REPO}/"
+        //                         }
+        //                     ]
+        //                 }"""
+                        
+        //                 server.upload(uploadSpec)
+        //             } catch (Exception e) {
+        //                 error("Failed to deploy artifacts to Artifactory: ${e.message}")
+        //             }
+        //         }
+        //     }
+        // }
         
 //         stage('Sonarqube Analysis') {
 //             steps {
