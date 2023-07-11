@@ -24,6 +24,26 @@ pipeline {
             steps {
                 sh "mvn clean compile"
             }
+        
+        stage('Sonarqube Analysis') {
+            steps {
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://55.66.152.113:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.projectKey=shopping-cart '''
+            }
+        }
+        stage('OWASP Scan') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'DP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        
+        stage('Build App') {
+            steps {
+                sh "mvn clean package -DskipTests=true"
+            }
+        }
         }
         stage('Deploy to Artifactory') {
             environment {
@@ -51,48 +71,27 @@ pipeline {
                 }
             }
         }
-        
-//         stage('Sonarqube Analysis') {
-//             steps {
-//                         sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://55.66.152.113:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
-//                         -Dsonar.java.binaries=. \
-//                         -Dsonar.projectKey=shopping-cart '''
-//             }
-//         }
-//         stage('OWASP Scan') {
-//             steps {
-//                 dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'DP'
-//                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-//             }
-//         }
-        
-//           stage('Build App') {
-//             steps {
-//                 sh "mvn clean package -DskipTests=true"
-//             }
-//         }
-        
-//         stage('Docker Build & Push') {
-//             steps {
-//                 script {
-//                     withDockerRegistry(credentialsId: 'Docker', toolName: 'docker') {
-//                     sh "docker build -t shopping-cart:latest -f docker/Dockerfile ."
-//                     sh "docker tag shopping-cart:latest gadebhavani26/shopping-cart:latest"
-//                     sh "docker push gadebhavani26/shopping-cart:latest"
-//                     }
-//                 }
-//             }
-//         }
-//         stage("Deploy to EKS") {
-//             steps {
-//                 script {
-//                     dir('.') {
-//                         sh "aws eks --region ap-south-1 update-kubeconfig --name terraform-eks-demo"
-//                         sh "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml"
-//                         sh "kubectl apply -f deploymentservice.yml"
-//                     }
-//                 }
-//             }
-//         }
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'Docker', toolName: 'docker') {
+                    sh "docker build -t shopping-cart:latest -f docker/Dockerfile ."
+                    sh "docker tag shopping-cart:latest gadebhavani26/shopping-cart:latest"
+                    sh "docker push gadebhavani26/shopping-cart:latest"
+                    }
+                }
+            }
+        }
+        stage("Deploy to EKS") {
+            steps {
+                script {
+                    dir('.') {
+                        sh "aws eks --region ap-south-1 update-kubeconfig --name terraform-eks-demo"
+                        sh "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml"
+                        sh "kubectl apply -f deploymentservice.yml"
+                    }
+                }
+            }
+        }
     }
 }
