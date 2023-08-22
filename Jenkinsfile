@@ -28,7 +28,7 @@ pipeline {
         
         stage('Sonarqube Analysis') {
             steps {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://3.110.191.224:9000/ -Dsonar.login=squ_1cbd96bd9e4fc6f853f11ca0fc9d92dd6a66de61 -Dsonar.projectName=shopping-cart \
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://3.108.59.195:9000/ -Dsonar.login=squ_0b16f660e5bc4514a3d8da45c5b9b896a6931f15 -Dsonar.projectName=shopping-cart \
                         -Dsonar.java.binaries=. \
                         -Dsonar.projectKey=shopping-cart '''
             }
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        def server = Artifactory.newServer url: 'http://3.110.191.224:8082/artifactory/r123-1/', credentialsId: 'jfrog-cred'
+                        def server = Artifactory.newServer url: 'http://3.108.59.195:8082/artifactory/r123-1/', credentialsId: 'jfrog-cred'
                         def uploadSpec = """{
                             "files": [
                                 {
