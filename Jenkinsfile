@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools{
-        jdk 'jdk11'
+        jdk 'jdk11'           // Define these specific tools inside ManageJenkins->Tools->Check JDK and Maven3.
         maven 'maven3'
     }
     
