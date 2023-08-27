@@ -47,7 +47,7 @@ spec:
     - host: shopping.hashteksolutions.com
       http:
         paths:
-          - path: /
+          - path: /home                 // Routing the traffic to "springboot-k8ssvc"
             pathType: Prefix
             backend:
               service:
