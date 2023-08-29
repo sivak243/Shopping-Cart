@@ -1,8 +1,20 @@
 Install JDK
 Install Jenkins
+install docker
 Git Clone "Shopping Cart" Project
 
 
-Plugins :  Mavin
+Plugins :  
+JAVA -------> Eclipse Temurin installer Plugin  , JDK Parameter Plugin
+Docker ------> Docker 1.4 ,Docker Pipeline , docker-build-step ,Docker Bees
+Add Tools ----> JDK and Maven
+
+Add Credentials for Docker
+
+
+
+
+
+
 
 
