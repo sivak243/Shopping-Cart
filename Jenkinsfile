@@ -14,11 +14,11 @@ pipeline {
     }
 
     stages {
-        stage('Git Checkout') {
-            steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/sivak243/Shopping-Cart.git'
-            }
-        }
+       // stage('Git Checkout') {
+       //     steps {
+        //        git branch: 'main', changelog: false, poll: false, url: 'https://github.com/sivak243/Shopping-Cart.git'
+        //    }
+       // }
         
         stage('Compile') {
             steps {
