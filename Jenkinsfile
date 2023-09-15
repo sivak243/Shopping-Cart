@@ -7,10 +7,10 @@ pipeline {
     }
     
     environment {
-        ///SCANNER_HOME= tool 'sonar-scanner'
+        SCANNER_HOME= tool 'sonar-scanner'
         //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         //AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        AWS_DEFAULT_REGION = "ap-south-1"
+       // AWS_DEFAULT_REGION = "ap-south-1"
     }
 
     stages {
@@ -27,13 +27,19 @@ pipeline {
         }
 
         stage("StaticCodeAnalysis-SQ"){
-           script {
-                   sh "mvn clean verify sonar:sonar \
-                    -Dsonar.projectKey=shopping-cart \
-                    -Dsonar.projectName='shopping-cart' \
-                    -Dsonar.host.url=http://3.109.157.165:9000 \
-                    -Dsonar.token=sqp_380b687aed1c92b100bd6a23c81a84768b18f671"
-               
+            steps {
+              script {
+                  // /*
+                  //  sh "mvn clean verify sonar:sonar \
+                  //   -Dsonar.projectKey=shopping-cart \
+                  //   -Dsonar.projectName='shopping-cart' \
+                  //   -Dsonar.host.url=http://3.109.157.165:9000 \
+                  //   -Dsonar.token=sqp_380b687aed1c92b100bd6a23c81a84768b18f671" */
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://3.109.157.165:9000/ -Dsonar.login=sqp_380b687aed1c92b100bd6a23c81a84768b18f671 -Dsonar.projectName=shopping-cart \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.projectKey=shopping-cart '''
+                                    
+                     }
             }
         }
                 
