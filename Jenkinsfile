@@ -27,12 +27,13 @@ pipeline {
         }
 
         stage("StaticCodeAnalysis-SQ"){
-            steps{
+           script {
                    sh "mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=shopping-cart \
                     -Dsonar.projectName='shopping-cart' \
                     -Dsonar.host.url=http://3.109.157.165:9000 \
                     -Dsonar.token=sqp_380b687aed1c92b100bd6a23c81a84768b18f671"
+               
             }
         }
                 
