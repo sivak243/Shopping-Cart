@@ -26,11 +26,11 @@ pipeline {
             }
         }
 
-        stage("StaticCodeAnalysis-SQ"){
+        stage("StaticCodeAnalysis-SQ") {
             steps {
-                         sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://65.0.97.78:9000/ -Dsonar.login=squ_80a7c6fec9d75092a19edd2e68032ae5ab817db5 -Dsonar.projectName=shopping-cart \
-                        -Dsonar.java.binaries=. \
-                        -Dsonar.projectKey=shopping-cart '''
+                      sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.url=http://65.0.97.78:9000/ -Dsonar.login=squ_80a7c6fec9d75092a19edd2e68032ae5ab817db5 -Dsonar.projectName=shopping-cart \
+                      -Dsonar.java.binaries=. \
+                      -Dsonar.projectKey=shopping-cart '''
             }
         }
                 
